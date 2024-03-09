@@ -7,3 +7,15 @@
 - Desenvolver habiliades na manipulação de Banco de Dados
 - Resolver problemas
 - Aprender mais sobre Python e Sintaxe SQL no geral 
+
+## Procedimentos prontos:
+- CONECTAR
+- CRIAR TABELA
+- INSERT
+- DELETE
+- "TRUNCATE"
+- DROP TABLE
+
+## Em desenvolvimento:
+- UPDATE
+- SELECT

@@ -23,18 +23,20 @@ def conectar(caminho):
 
 def criarTabela(conexao, comando):
     try:
-        conexao.cursor()
-        conexao.execute(comando)
+        cursor = conexao.cursor()
+        cursor.execute(comando)
         
         print('Tabela criada com sucesso')
     except sqlite3.Error as er:
         print(er)
 
+# INSERÇÃO DE DADOS
 def inserirDados(conexao, comando):
     try:
         cursor = conexao.cursor()
         cursor.execute(comando)
         conexao.commit()
+
         print("Dados inseridos com sucesso!")
     except sqlite3.Error as er:
         print(er)
@@ -49,6 +51,45 @@ def preencher():
     ]
     return campo
 
+### "TRUNCATE"
+comandoTruncar = """
+DELETE FROM TB_PECAS;
+"""
+def truncar(conexao):
+    try:
+        cursor = conexao.cursor()
+        cursor.execute(comandoTruncar)
+        conexao.commit()
+        print('Tabela zerada com sucesso')
+    except sqlite3.Error as er:
+        print(er)
+
+### DELETAR LINHA ESPECIFICA
+def deletarlinha(conexao):
+    linha = int(input('Qual o ID do produto deseja excluir? '))
+    cursor = conexao.cursor()
+    comando = f"""
+DELETE FROM TB_PECAS
+WHERE CODIGO = {linha};"""
+    
+    try:
+        cursor.execute(comando)
+        conexao.commit()
+        print(f'Peça de ID #{linha} deletado com sucesso!')
+    except sqlite3.Error as er:
+        print(er)
+
+### Apagar tabela
+def dropTable(conexao):
+    comando = """
+DROP TABLE TB_PECAS"""
+    try:
+        cursor = conexao.cursor()
+        cursor.execute(comando)
+        print('Tabela apagada com sucesso!')
+    except sqlite3.Error as er:
+        print(er)
+
 ### Iniciando procedimentos
 comandoCriarTabela = """
 CREATE TABLE TB_PECAS(
@@ -59,12 +100,12 @@ CREATE TABLE TB_PECAS(
 	VALOR DECIMAL(12,2)
     )"""
 
-
 vcon = conectar(caminho) # Estabelecer conexão
 
 criarTabela(vcon, comandoCriarTabela)
 # Se já existe será printado "Already Exists"
 
+### INSERINDO DADOS
 campos = preencher()
 
 comandoInserir = f"""
@@ -76,5 +117,3 @@ INSERT INTO TB_PECAS
 inserirDados(vcon, comandoInserir)
 
 vcon.close()
-
-
