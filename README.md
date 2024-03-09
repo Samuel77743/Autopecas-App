@@ -19,3 +19,4 @@
 ## Em desenvolvimento:
 - UPDATE
 - SELECT
+- Interface Gráfica
