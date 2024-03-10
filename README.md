@@ -12,11 +12,11 @@
 - CONECTAR
 - CRIAR TABELA
 - INSERT
+- UPDATE
 - DELETE
 - "TRUNCATE"
 - DROP TABLE
 
 ## Em desenvolvimento:
-- UPDATE
 - SELECT
 - Interface Gráfica
