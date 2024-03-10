@@ -1,6 +1,7 @@
 # Banco de Dados usando *PYTHON + SQLite*
 ## Apoiadores do Projeto🤝
 - <a href="https://github.com/HiCosta">**Higor Costa**<a>
+- <a href="https://github.com/Samuel77743">**Samuel Silva**<a>
 
 ## Expectativa 😎
 - Aprender SQLite
