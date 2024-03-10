@@ -6,8 +6,8 @@
 
 import sqlite3
 
-### Conexão
 
+### Conexão
 caminho = ".\\db_Autopecas.db"
 
 def conectar(caminho):
@@ -19,8 +19,9 @@ def conectar(caminho):
         print(er)
     return conexao
 
-### Criando tabela
 
+### FUNÇÕES DE PROCEDIMENTOS DO BANCO
+# Criando tabela
 def criarTabela(conexao, comando):
     try:
         cursor = conexao.cursor()
@@ -51,7 +52,7 @@ def preencher():
     ]
     return campo
 
-### "TRUNCATE"
+# "TRUNCATE"
 comandoTruncar = """
 DELETE FROM TB_PECAS;
 """
@@ -64,7 +65,7 @@ def truncar(conexao):
     except sqlite3.Error as er:
         print(er)
 
-### DELETAR LINHA ESPECIFICA
+# DELETAR LINHA ESPECIFICA
 def deletarlinha(conexao):
     linha = int(input('Qual o ID do produto deseja excluir? '))
     cursor = conexao.cursor()
@@ -79,14 +80,68 @@ WHERE CODIGO = {linha};"""
     except sqlite3.Error as er:
         print(er)
 
-### Apagar tabela
+# Apagar tabela
 def dropTable(conexao):
-    comando = """
-DROP TABLE TB_PECAS"""
+    comando = "DROP TABLE TB_PECAS"
     try:
         cursor = conexao.cursor()
         cursor.execute(comando)
         print('Tabela apagada com sucesso!')
+    except sqlite3.Error as er:
+        print(er)
+
+# Atualizar uma célula
+def update(conexao):
+    print(f"\n{'UPDATE':=^25}")
+    
+    id = int(input('Qual o ID da linha que deseja alterar o valor -> '))
+
+    while True:
+        print(f'{"Qual a coluna":=^25}')
+        print("""
+        [1] NOME
+        [2] DESCRICAO
+        [3] FAMÍLIA
+        [4] VALOR""")
+
+        numColuna = int(input('\nSUA RESPOSTA -> '))
+
+        if numColuna == 1:
+            nomeColuna = 'nome'
+            break
+        elif numColuna == 2:
+            nomeColuna = 'descricao'
+            break
+        elif numColuna == 3:
+            nomeColuna = 'familia'
+            break
+        elif numColuna == 4:
+            nomeColuna = 'valor'
+            break
+        else:
+            print(f'{"Resposta Inválida":=^25}')
+    
+    if nomeColuna != 'valor':
+        dado = str(input('VALOR NOVO -> '))
+    else:
+        while True:
+            try:
+                dado = float(input('VALOR NOVO -> '))
+                break
+
+            except ValueError:
+                print('Digite apenas valores numéricos!')
+                print(f'{"TENTE NOVAMENTE":-^25}') 
+
+    comandoUpdate = f"""
+    UPDATE TB_PECAS
+    SET {nomeColuna} = '{dado}'
+    WHERE rowid = {id};"""
+
+    try:
+        cursor = conexao.cursor()
+        cursor.execute(comandoUpdate)
+        conexao.commit()
     except sqlite3.Error as er:
         print(er)
 
@@ -100,20 +155,22 @@ CREATE TABLE TB_PECAS(
 	VALOR DECIMAL(12,2)
     )"""
 
-vcon = conectar(caminho) # Estabelecer conexão
+# Estabelecer conexão
+vcon = conectar(caminho) 
 
-criarTabela(vcon, comandoCriarTabela)
-# Se já existe será printado "Already Exists"
+# criarTabela(vcon, comandoCriarTabela) # Se já existe será printado "Already Exists"
 
 ### INSERINDO DADOS
-campos = preencher()
+# campos = preencher()
 
-comandoInserir = f"""
-INSERT INTO TB_PECAS
-(NOME, DESCRICAO, FAMILIA, VALOR) VALUES
-('{campos[0]}', '{campos[1]}', '{campos[2]}', {campos[3]});
-"""
+# comandoInserir = f"""
+# INSERT INTO TB_PECAS
+# (NOME, DESCRICAO, FAMILIA, VALOR) VALUES
+# ('{campos[0]}', '{campos[1]}', '{campos[2]}', {campos[3]});
+# """
 
-inserirDados(vcon, comandoInserir)
+# inserirDados(vcon, comandoInserir)
+
+update(vcon)
 
 vcon.close()
