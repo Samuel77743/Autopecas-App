@@ -227,5 +227,5 @@ vcon = conectar(caminho)
 # criarTabela(vcon, comandoCriarTabela)
 # Se já existe será printado "Already Exists"
 
-# menu(vcon)
+menu(vcon)
 vcon.close()
