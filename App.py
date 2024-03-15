@@ -38,6 +38,23 @@ def criarTabela(conexao, comando):
     except sqlite3.Error as er:
         print(er)
 
+#funcao mostrar tabela
+def MostrarTabela(conexao):
+    try:
+        cursor = conexao.cursor()
+        comandoMostrarTabela = """
+        SELECT NOME, DESCRICAO
+        FROM TB_PECAS;
+        """
+        cursor.execute(comandoMostrarTabela)
+        
+        #imprimindo linhas
+        for linha in cursor.fetchall():
+            print(linha)
+    except sqlite3.Error as er:
+        print(er)
+
+
 # INSERÇÃO DE DADOS
 
 def preencher():
@@ -229,3 +246,6 @@ vcon = conectar(caminho)
 
 menu(vcon)
 vcon.close()
+
+# Chamando a função MostrarTabela
+MostrarTabela(vcon)
