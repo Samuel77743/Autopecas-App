@@ -145,6 +145,23 @@ def update(conexao):
     except sqlite3.Error as er:
         print(er)
 
+
+#funcao mostrar tabela
+def MostrarTabela(conexao):
+    try:
+        cursor = conexao.cursor()
+        comandoMostrarTabela = """
+        SELECT NOME, DESCRICAO
+        FROM TB_PECAS;
+        """
+        cursor.execute(comandoMostrarTabela)
+        
+        #imprimindo linhas
+        for linha in cursor.fetchall():
+            print(linha)
+    except sqlite3.Error as er:
+        print(er)
+
 ### Iniciando procedimentos
 comandoCriarTabela = """
 CREATE TABLE TB_PECAS(
@@ -160,7 +177,7 @@ vcon = conectar(caminho)
 
 # criarTabela(vcon, comandoCriarTabela) # Se já existe será printado "Already Exists"
 
-### INSERINDO DADOS
+# ## INSERINDO DADOS
 # campos = preencher()
 
 # comandoInserir = f"""
@@ -171,6 +188,11 @@ vcon = conectar(caminho)
 
 # inserirDados(vcon, comandoInserir)
 
-update(vcon)
+#update(vcon)
 
-vcon.close()
+#vcon.close()
+
+
+
+# Chamando a função MostrarTabela
+MostrarTabela(vcon)
