@@ -17,7 +17,8 @@
 - DELETE
 - "TRUNCATE"
 - DROP TABLE
+- SELECT
 
 ## Em desenvolvimento:
-- SELECT
 - Interface Gráfica
+- VIEWs de Insights
