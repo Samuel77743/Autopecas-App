@@ -1,5 +1,6 @@
 import PySimpleGUI as sg
 import subprocess
+from App import *
 
 # Função para executar o App.py
 def executar_app_py():
@@ -22,16 +23,16 @@ while True:
         break
     elif evento == 'Inserir Dados':
         sg.popup('Executando inserirDados()...')
-        executar_app_py()
+        inserirDados()
     elif evento == 'Atualizar Dado':
         sg.popup('Executando update()...')
-        executar_app_py()
+        update()
     elif evento == 'Deletar Linha':
         sg.popup('Executando deletarlinha()...')
-        executar_app_py()
+        deletarlinha()
     elif evento == 'Mostrar Tabela':
         sg.popup('Executando MostrarTabela()...')
-        executar_app_py()
+        MostrarTabela()
 
 # Fechando a janela ao sair do loop
 janela.close()
