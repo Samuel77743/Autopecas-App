@@ -250,7 +250,8 @@ vcon = conectar(caminho)
 # resetTable(vcon)
 
 menu(vcon)
-vcon.close()
 
 # Chamando a função MostrarTabela
 MostrarTabela(vcon)
+
+vcon.close()
