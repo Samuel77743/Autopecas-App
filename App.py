@@ -15,7 +15,7 @@ cores = {
 }
  
 ### Conexão
-caminho = ".\\db_Autopecas.db"
+caminho = ".\\db_Filmes.db"
 
 def conectar(caminho):
     conexao = None
@@ -43,8 +43,8 @@ def MostrarTabela(conexao):
     try:
         cursor = conexao.cursor()
         comandoMostrarTabela = """
-        SELECT NOME, DESCRICAO
-        FROM TB_PECAS;
+        SELECT *
+        FROM TB_FILMES;
         """
         cursor.execute(comandoMostrarTabela)
         
@@ -60,10 +60,10 @@ def MostrarTabela(conexao):
 def preencher():
     print(f'\n{"PREENCHENDO":=^20}')
     campo = [
-        str(input('NOME DA PEÇA -> ')).upper(),
-        str(input('DESCRIÇÃO -> ')).capitalize(),
-        str(input('FAMÍLIA -> ')).capitalize(),
-        float(input('VALOR -> '))
+        str(input('TÍTULO DO FILME -> ')).upper(),
+        str(input('GÊNERO -> ')).capitalize(),
+        int(input('ANO DE LANÇAMENTO -> ')),
+        int(input('BILHETERIA -> '))
     ]
     return campo
 
@@ -71,8 +71,8 @@ def inserirDados(conexao):
     campos = preencher()
 
     comando = f"""
-    INSERT INTO TB_PECAS
-    (NOME, DESCRICAO, FAMILIA, VALOR) VALUES
+    INSERT INTO tb_Filmes
+    (TITULO, GENERO, ANO, BILHETERIA) VALUES
     ('{campos[0]}', '{campos[1]}', '{campos[2]}', {campos[3]});
     """
     
@@ -88,7 +88,7 @@ def inserirDados(conexao):
 
 # "TRUNCATE"
 comandoTruncar = """
-DELETE FROM TB_PECAS;
+DELETE FROM tb_Filmes;
 """
 def truncar(conexao):
     try:
@@ -104,7 +104,7 @@ def deletarlinha(conexao):
     linha = int(input('Qual o {}ID{} do produto deseja excluir? '.format(cores['vermelho-sub'], cores['default'])))
     cursor = conexao.cursor()
     comando = f"""
-DELETE FROM TB_PECAS
+DELETE FROM tb_Filmes
 WHERE CODIGO = {linha};"""
     
     try:
@@ -116,7 +116,7 @@ WHERE CODIGO = {linha};"""
 
 # Apagar tabela
 def dropTable(conexao):
-    comando = "DROP TABLE TB_PECAS"
+    comando = "DROP TABLE tb_Filmes"
     try:
         cursor = conexao.cursor()
         cursor.execute(comando)
@@ -141,24 +141,24 @@ def update(conexao, qnt):
         while True:
             print(f'{"Qual a coluna":=^25}')
             print("""
-            [1] NOME
-            [2] DESCRICAO
-            [3] FAMÍLIA
-            [4] VALOR""")
+            [1] TITULO
+            [2] GENERO
+            [3] ANO
+            [4] BILHETERIA""")
 
             numColuna = int(input('\nSUA RESPOSTA -> '))
 
             if numColuna == 1:
-                nomeColuna = 'nome'
+                nomeColuna = 'TITULO'
                 break
             elif numColuna == 2:
-                nomeColuna = 'descricao'
+                nomeColuna = 'GENERO'
                 break
             elif numColuna == 3:
-                nomeColuna = 'familia'
+                nomeColuna = 'ANO'
                 break
             elif numColuna == 4:
-                nomeColuna = 'valor'
+                nomeColuna = 'BILHETERIA'
                 break
             else:
                 print(f'{"Resposta Inválida":=^25}')
@@ -176,7 +176,7 @@ def update(conexao, qnt):
                     print(f'{"TENTE NOVAMENTE":-^25}') 
 
         comandoUpdate = f"""
-        UPDATE TB_PECAS
+        UPDATE tb_Filmes
         SET {nomeColuna} = '{dado}'
         WHERE rowid = {id};"""
 
@@ -227,22 +227,27 @@ def menu(conexao):
         print('\n=== Valor inválido. Tente novamente!===\n')
         menu(conexao)
 
+def resetTable(conexao):
+    dropTable(conexao)
+    
+    comandoCriarTabela = """
+    CREATE TABLE tb_Filmes (
+    CODIGO INTEGER PRIMARY KEY,
+    TITULO VARCHAR (50),
+    GENERO VARCHAR (30),
+    ANO INTEGER,
+    BILHETERIA INTEGER
+        )"""
+
+    criarTabela(vcon, comandoCriarTabela)
+    # Se já existe será printado "Already Exists"
+
+
 ### Iniciando procedimentos
 
 # Estabelecer conexão
 vcon = conectar(caminho) 
-
-# comandoCriarTabela = """
-# CREATE TABLE TB_PECAS(
-# 	CODIGO INTEGER PRIMARY KEY AUTOINCREMENT,
-# 	NOME varchar(50),
-# 	DESCRICAO TEXT,
-# 	FAMILIA TEXT,
-# 	VALOR DECIMAL(12,2)
-#     )"""
-
-# criarTabela(vcon, comandoCriarTabela)
-# Se já existe será printado "Already Exists"
+# resetTable(vcon)
 
 menu(vcon)
 vcon.close()
