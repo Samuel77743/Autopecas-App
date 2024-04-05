@@ -29,5 +29,5 @@
 - SELECT
 
 ## Em desenvolvimento:
-- Interface Gráfica
-- VIEWs de Insights
+- Interface Gráfica (Protótipos pronto)
+- VIEWs de Insights (Protótipo pronto)
