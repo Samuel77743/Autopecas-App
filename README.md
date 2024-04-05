@@ -31,3 +31,4 @@
 ## Em desenvolvimento:
 - Interface Gráfica (Protótipos pronto)
 - VIEWs de Insights (Protótipo pronto)
+- Importação CSV para o Excel
